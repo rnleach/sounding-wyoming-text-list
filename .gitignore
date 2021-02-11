@@ -1,0 +1,20 @@
+//
+// cargo and rustc
+//
+/target/
+**/*.rs.bk
+Cargo.lock
+
+//
+// text editors
+//
+*.sublime*
+.vscode
+*.swp
+tags
+Session.vim
+
+//
+// OS specific
+//
+.DS_Store
