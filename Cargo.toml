@@ -4,6 +4,17 @@ version = "0.1.0"
 authors = ["Ryan <rnleach@users.noreply.github.com>"]
 edition = "2018"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+description = """Library to parse HTML text from University of Wyoming with sounding data."""
+repository = "https://github.com/rnleach/sounding-wyoming-text-list.git"
+readme = "README.md"
+license-file = "LICENSE"
+exclude = ["**/*.rs.bk",".gitignore",".vscode/**/*", "tests/**/*", "tags", "example_data/**/*", "bufkit_parameters.txt"]
+categories = ["science"]
+keywords = ["weather","sounding","meteorology", "skew-t"]
 
 [dependencies]
+metfor = "^0.7.4"
+sounding-analysis = "^0.14.0"
+chrono="^0.4"
+optional = "^0.5.0"
+
