@@ -15,7 +15,9 @@ impl<'a> Iterator for SoundingIterator<'a> {
     fn next(&mut self) -> Option<Self::Item> {
         loop {
             let text = self.text_iter.next()?;
-            if let res @ Some(_) = crate::parse_section::parse(text, self.source_name) {
+            let res = crate::parse_section::parse(text, self.source_name);
+
+            if res.is_some() {
                 return res;
             }
         }

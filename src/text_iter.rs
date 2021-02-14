@@ -15,9 +15,6 @@ pub fn create_text_section_iterator(text: &str) -> SoundingTextIterator {
     SoundingTextIterator { remaining: text }
 }
 
-const PRE_START: &str = "<PRE>";
-const PRE_END: &str = "</PRE>";
-
 impl<'a> Iterator for SoundingTextIterator<'a> {
     type Item = SoundingText<'a>;
 
@@ -35,9 +32,51 @@ impl<'a> Iterator for SoundingTextIterator<'a> {
     }
 }
 
-fn find_next_pre_section(source: &str) -> Option<(&str, usize)> {
-    let start = source.find(PRE_START)?;
-    let end = (&source[start..]).find(PRE_END)?;
+const PRE_START: &str = "<PRE>";
+const PRE_START_LC: &str = "<pre>";
+const PRE_END: &str = "</PRE>";
+const PRE_END_LC: &str = "</pre>";
 
-    Some((&source[(start + PRE_START.len())..end], end))
+fn find_next_pre_section(source: &str) -> Option<(&str, usize)> {
+    let start = source
+        .find(PRE_START)
+        .or_else(|| source.find(PRE_START_LC))?;
+    let end = source[start..]
+        .find(PRE_END)
+        .or_else(|| source[start..].find(PRE_END_LC))?
+        + start;
+
+    let chunk = &source[(start + PRE_START.len())..end];
+
+    Some((chunk, end))
+}
+
+#[cfg(test)]
+mod test {
+    use super::*;
+    use crate::test_utils::*;
+
+    #[test]
+    fn test_otx_count() {
+        let text = get_otx();
+
+        let iter = create_text_section_iterator(text);
+        assert_eq!(iter.count(), 1);
+    }
+
+    #[test]
+    fn test_otx2_count() {
+        let text = get_otx2();
+
+        let iter = create_text_section_iterator(text);
+        assert_eq!(iter.count(), 1);
+    }
+
+    #[test]
+    fn test_tfx() {
+        let text = get_tfx();
+
+        let iter = create_text_section_iterator(text);
+        assert_eq!(iter.count(), 20);
+    }
 }
