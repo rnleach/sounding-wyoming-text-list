@@ -8,7 +8,7 @@ description = """Library to parse HTML text from University of Wyoming with soun
 repository = "https://github.com/rnleach/sounding-wyoming-text-list.git"
 readme = "README.md"
 license-file = "LICENSE"
-exclude = ["**/*.rs.bk",".gitignore",".vscode/**/*", "tests/**/*", "tags", "example_data/**/*", "bufkit_parameters.txt"]
+exclude = ["**/*.rs.bk",".gitignore",".vscode/**/*", "tests/**/*", "tags", "example_data/**/*"]
 categories = ["science"]
 keywords = ["weather","sounding","meteorology", "skew-t"]
 
