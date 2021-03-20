@@ -82,7 +82,7 @@ fn parse_indexes(text: &str) -> HashMap<&'static str, f64> {
     let mut provider_anal = HashMap::new();
 
     for (key, value_str) in text.lines().filter_map(|line| {
-        line.find(":")
+        line.find(':')
             .map(|idx| line.split_at(idx))
             .map(|(key, val)| (key.trim(), val.trim()))
             .map(|(key, val)| (key, val[1..].trim()))
@@ -155,7 +155,7 @@ fn parse_station_info(text: &str) -> Option<StationInfo> {
     let mut elevation: Option<Meters> = None;
 
     for (key, value_str) in text.lines().filter_map(|line| {
-        line.find(":")
+        line.find(':')
             .map(|idx| line.split_at(idx))
             .map(|(key, val)| (key.trim(), val.trim()))
     }) {
@@ -287,7 +287,5 @@ where
     i.into_iter()
         .filter(|opt| opt.is_some())
         .enumerate()
-        .skip_while(|(c, _)| *c < MIN_NUM_LEVELS)
-        .next()
-        .is_some()
+        .any(|(c, _)| c >= MIN_NUM_LEVELS)
 }
