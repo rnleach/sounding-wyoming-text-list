@@ -1,6 +1,6 @@
 [package]
 name = "sounding-wyoming-text-list"
-version = "0.3.0"
+version = "0.3.1"
 authors = ["Ryan <rnleach@users.noreply.github.com>"]
 edition = "2018"
 

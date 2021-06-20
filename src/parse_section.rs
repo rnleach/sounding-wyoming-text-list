@@ -25,11 +25,22 @@ pub fn parse(
     text: SoundingText,
     source_description: &str,
 ) -> Option<(Sounding, HashMap<&'static str, f64>)> {
-    let (pres, hgt, temp, dp, theta_e, wind) = parse_profile(text.upper_air)?;
-
     let station_info = parse_station_info(text.stn_info_and_indexes)?;
     let valid_time = parse_valid_time(text.stn_info_and_indexes)?;
     let provider_data = parse_indexes(text.stn_info_and_indexes);
+
+    let (mut pres, mut hgt, mut temp, mut dp, mut theta_e, mut wind) = parse_profile(text.upper_air)?;
+
+    // Trim any below ground levels (they were calculated!)
+    if let Some(elevation) = station_info.elevation().into_option() {
+        let skip_levels = hgt.iter().take_while(|h| h.is_none() || h.unpack() < elevation).count();
+        pres.drain(0..skip_levels);
+        hgt.drain(0..skip_levels);
+        temp.drain(0..skip_levels);
+        dp.drain(0..skip_levels);
+        theta_e.drain(0..skip_levels);
+        wind.drain(0..skip_levels);
+    }
 
     let sounding = Sounding::new()
         .with_source_description(source_description.to_string())
