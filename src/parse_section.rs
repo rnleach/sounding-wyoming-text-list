@@ -153,9 +153,7 @@ fn parse_valid_time(text: &str) -> Option<chrono::NaiveDateTime> {
     let day = str_val[4..6].parse::<u32>().ok()?;
     let hour = str_val[7..9].parse::<u32>().ok()?;
 
-    let vt = chrono::NaiveDate::from_ymd(year, month, day).and_hms(hour, 0, 0);
-
-    Some(vt)
+    chrono::NaiveDate::from_ymd_opt(year, month, day).and_then(|vt| vt.and_hms_opt(hour, 0, 0))
 }
 
 fn parse_station_info(text: &str) -> Option<StationInfo> {

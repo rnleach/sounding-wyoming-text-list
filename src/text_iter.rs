@@ -11,7 +11,7 @@ pub struct SoundingTextIterator<'a> {
     remaining: &'a str,
 }
 
-pub fn create_text_section_iterator(text: &str) -> SoundingTextIterator {
+pub fn create_text_section_iterator(text: &str) -> SoundingTextIterator<'_> {
     SoundingTextIterator { remaining: text }
 }
 
